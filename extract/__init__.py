@@ -24,3 +24,9 @@ def remove_duplicates(data):
 
 def ignore_empty_lines(data):
     return [row for row in data if any(row)]
+
+def capitalize_names(data):
+    for row in data:
+        row[1] = row[1].capitalize()
+        row[2] = row[2].capitalize()
+    return data

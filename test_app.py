@@ -1,4 +1,4 @@
-from extract import get_csv, remove_duplicates, ignore_empty_lines
+from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names
 
 def test_input_is_list():
     #Arrange
@@ -59,3 +59,17 @@ def test_ignore_empty_lines():
         ['3', 'Bob', 'Smith', 'Yes', 'Yes', '9']
     ]
     assert ignore_empty_lines(data) == expected_data
+
+
+def test_capitalize_names():
+    data= [
+        ['1', 'john', 'Doe', 'Yes', 'No', '5'],
+        ['2', 'Jane', 'doe', 'No', 'Yes', '8'],
+        ['3', 'Bob', 'smith', 'Yes', 'Yes', '9']
+    ]
+    expected_data = [
+        ['1', 'John', 'Doe', 'Yes', 'No', '5'],
+        ['2', 'Jane', 'Doe', 'No', 'Yes', '8'],
+        ['3', 'Bob', 'Smith', 'Yes', 'Yes', '9']
+    ]
+    assert capitalize_names(data) == expected_data
