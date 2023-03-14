@@ -1,4 +1,4 @@
-from extract import get_csv
+from extract import get_csv, remove_duplicates
 
 def test_input_is_list():
     #Arrange
@@ -30,3 +30,17 @@ def test_input_is_correct():
 
 
 
+
+def test_remove_duplicate():
+    data = [
+        ['1', 'John', 'Doe', 'Yes', 'No', '5'],
+        ['2', 'Jane', 'Doe', 'No', 'Yes', '8'],
+        ['1', 'John', 'Doe', 'Yes', 'No', '5'],
+        ['4', 'Bob', 'Smith', 'Yes', 'Yes', '9']
+    ]
+    expected_data = [
+        ['1', 'John', 'Doe', 'Yes', 'No', '5'],
+        ['2', 'Jane', 'Doe', 'No', 'Yes', '8'],
+        ['4', 'Bob', 'Smith', 'Yes', 'Yes', '9']
+    ]
+    assert remove_duplicates(data) == expected_data
