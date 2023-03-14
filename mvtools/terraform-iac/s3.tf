@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-    bucket_prefix = "mvws9-kai-j"
+    bucket_prefix = "survey-kai-jones"
     force_destroy = true
     tags = {
         Name = "multiverse"

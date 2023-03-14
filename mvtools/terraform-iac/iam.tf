@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "ec2" {
 }
 
 resource "aws_iam_role" "this" {
-    name_prefix = "mvws9"
+    name_prefix = "s3-access-role"
     assume_role_policy = data.aws_iam_policy_document.assume_role.json
     tags = {
         Name = "multiverse"
@@ -26,7 +26,7 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_policy" "this" {
-    name_prefix = "mvws9"
+    name_prefix = "ec2-s3-access"
     path = "/"
     policy = data.aws_iam_policy_document.ec2.json
     tags = {
@@ -35,12 +35,12 @@ resource "aws_iam_policy" "this" {
 }
 
 resource "aws_iam_policy_attachment" "this" {
-    name = "mvws9"
+    name = "ec2-s3-access"
     roles = [aws_iam_role.this.name]
     policy_arn = aws_iam_policy.this.arn
 }
 
 resource "aws_iam_instance_profile" "this" {
-    name_prefix = "mvws9"
+    name_prefix = "s3-access-role"
     role = aws_iam_role.this.name
 }
