@@ -1,4 +1,4 @@
-from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names
+from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3
 
 def test_input_is_list():
     #Arrange
@@ -73,3 +73,20 @@ def test_capitalize_names():
         ['3', 'Bob', 'Smith', 'Yes', 'Yes', '9']
     ]
     assert capitalize_names(data) == expected_data
+
+def test_validate_answer_3():
+    data= [
+            ['1', 'john', 'Doe', 'Yes', 'No', '5'],
+            ['2', 'Jane', 'doe', 'No', 'Yes', '8'],
+            ['3', 'Bob', 'smith', 'Yes', 'Yes', '11'],
+            ['4', 'john', 'Doe', 'Yes', 'No', 'invalid'],
+            ['5', 'Jane', 'doe', 'No', 'Yes', ''],
+            ['6', 'Bob', 'smith', 'Yes', 'Yes', '7.5']
+    ]
+    expected_data = [
+    
+            ['1', 'john', 'Doe', 'Yes', 'No', '5'],
+            ['2', 'Jane', 'doe', 'No', 'Yes', '8'],
+            ['6', 'Bob', 'smith', 'Yes', 'Yes', '7.5']
+     ]
+    assert validate_answer_3(data) == expected_data
