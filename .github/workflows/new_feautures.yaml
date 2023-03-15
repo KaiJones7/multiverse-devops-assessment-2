@@ -27,7 +27,7 @@ jobs:
 
     - name: Run pytest
       run: pytest
-      working-directory: demo-app
+      working-directory: extract
 
   terraform:
     name: Run Terraform
