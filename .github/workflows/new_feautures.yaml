@@ -27,7 +27,7 @@ jobs:
 
     - name: Run pytest
       run: pytest
-      working-directory: multiverse-devops-assessment-2
+      working-directory: .
 
 
   terraform:
