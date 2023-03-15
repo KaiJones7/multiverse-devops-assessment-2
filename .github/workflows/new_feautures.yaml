@@ -1,4 +1,4 @@
-name: New features
+name: CI/CD Workflow
 
 on:
   push:
@@ -29,12 +29,13 @@ jobs:
       run: pytest
       working-directory: multiverse-devops-assessment-2
 
+
   terraform:
     name: Run Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: terraform-iac
+        working-directory: mvtools
     permissions:
       contents: write
     steps:
