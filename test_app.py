@@ -1,6 +1,6 @@
 import csv
 import tempfile, os
-from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file
+from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file, print_clean_data
 
 def test_input_is_list():
     #Arrange
@@ -136,6 +136,43 @@ def test_write_clean_data_to_file():
     os.remove(temp_file_output.name)
     os.remove(temp_file_expected.name)
 
+def test_print_clean_data(data_file):
+    data = [
+        ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
+        ['1', 'john', 'Doe', 'Yes', 'No', '5']
+    ]
 
+    expected_output = [
+        ['user_id First Name Last Name Answer 1  Answer 2 Answer 3'],
+        ['1       john                Doe                 Yes             No             5              ']
+    ]
 
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_input:
+        writer = csv.writer(temp_file_input)
+        writer.writerows(data)
 
+    # Create a temporary output file
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_output:
+        write_clean_data_to_file(temp_file_input.name, temp_file_output.name)
+
+    # Redirect stdout to a StringIO buffer
+    import sys
+    from io import StringIO
+    stdout_original = sys.stdout
+    sys.stdout = StringIO()
+
+    # Call the function with the temporary output file
+    print_clean_data(temp_file_output.name)
+
+    # Get the output from the StringIO buffer and split it into lines
+    output_lines = sys.stdout.getvalue().strip().split('\n')
+
+    # Assert that the output matches the expected output
+    assert output_lines == expected_output
+
+    # Restore stdout to its original value
+    sys.stdout = stdout_original
+
+    # Remove the temporary files
+    os.remove(temp_file_input.name)
+    os.remove(temp_file_output.name)
