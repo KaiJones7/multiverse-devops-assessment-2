@@ -45,5 +45,5 @@ python3 /root/code/script2.py > /root/code/results.txt
 aws s3 cp /root/code/results.txt s3://${s3_bucket}/results.txt
 EOT
 cat <<EOT >> /etc/cron.d/mvws9
-* * * * * root /bin/bash /root/mvws9.sh
+* 8 * * 1-5 root /bin/bash /root/mvws9.sh
 EOT
