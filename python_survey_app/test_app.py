@@ -1,6 +1,6 @@
 import csv
-import tempfile, os
-from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file
+import tempfile, os, sys, io
+from csvhelper import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file
 
 def test_input_is_list():
     #Arrange
@@ -95,7 +95,6 @@ def test_validate_answer_3():
 
 
 def test_write_clean_data_to_file():
-    # Input data
     data = [
         ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
         ['1', 'john', 'Doe', 'Yes', 'No', '5'],
@@ -136,6 +135,10 @@ def test_write_clean_data_to_file():
     os.remove(temp_file_output.name)
     os.remove(temp_file_expected.name)
 
+
+
+
+    
 
 
 
