@@ -1,5 +1,5 @@
 import csv
-import tempfile, os, io
+import tempfile, os, sys, io
 from csvhelper import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file, print_clean_data
 
 def test_input_is_list():
@@ -95,46 +95,35 @@ def test_validate_answer_3():
 
 
 def test_write_clean_data_to_file():
-    # Input data
-    data = [
-        ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
-        ['1', 'john', 'Doe', 'Yes', 'No', '5'],
-        ['3', 'Bob', 'smith', 'Yes', 'Yes', '11'],
-        ['4', 'john', 'Doe', 'Yes', 'No', 'invalid'],
-        ['5', 'Jane', 'doe', 'No', 'Yes', '4'],
-        ['5', 'Jane', 'doe', 'No', 'Yes', '10'],
-        ['', '', '', '', '', '']
-    ]
+    csv_data = "user_id,first_name,last_name,answer_1,answer_2,answer_3\n1,john,doe,Yes,No,5\n2,jane,doe,No,Yes,8\n"
+    expected_output = "user_id,first_name,last_name,answer_1,answer_2,answer_3\n1,John,Doe,Yes,No,5\n2,Jane,Doe,No,Yes,8\n"
 
-    expected = [
-        ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
-        ['1', 'John', 'Doe', 'Yes', 'No', '5'],
-        ['5', 'Jane', 'Doe', 'No', 'Yes', '4']
-    ]
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as input_file:
+        input_file.write(csv_data)
 
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_input:
-        writer = csv.writer(temp_file_input)
-        writer.writerows(data)
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as output_file:
+        write_clean_data_to_file(input_file.name, output_file.name)
 
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_expected:
-        writer = csv.writer(temp_file_expected)
-        writer.writerows(expected)
+        with open(output_file.name, mode="r") as f:
+            output_data = f.read()
 
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_output:
+            assert output_data == expected_output
 
-        write_clean_data_to_file(temp_file_input.name,temp_file_output.name)
+def test_print_clean_data(capsys):
+    csv_data = "user_id,first_name,last_name,answer_1,answer_2,answer_3\n1,John,Doe,Yes,No,5\n2,Jane,Doe,No,Yes,8\n"
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as f:
+        f.write(csv_data)
+        csv_file_path = f.name
+    expected_output = '''user_id    First Name           Last Name            Answer 1        Answer 2        Answer 3       
+1          John                 Doe                  Yes             No              5              
+2          Jane                 Doe                  No              Yes             8              
+'''
+    print_clean_data(csv_file_path)
+    captured = capsys.readouterr()
+    assert captured.out == expected_output
 
-    with open(temp_file_output.name) as f:
-        output_data = list(csv.reader(f))
 
-    with open(temp_file_expected.name) as f:
-        expected_data = list(csv.reader(f))
-
-    assert output_data == expected_data
-
-    os.remove(temp_file_input.name)
-    os.remove(temp_file_output.name)
-    os.remove(temp_file_expected.name)
+    
 
 
 

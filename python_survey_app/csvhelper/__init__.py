@@ -59,6 +59,6 @@ def write_clean_data_to_file(input_file, output_file):
 def print_clean_data(file):
     with open(file) as f:
         reader = csv.DictReader(f)
-        print(f" {'user_id':<10} {'First Name':<20} {'Last Name':<20} {'Answer 1':<15} {'Answer 2':<15} {'Answer 3':<15}")
+        print(f"{'user_id':<10} {'First Name':<20} {'Last Name':<20} {'Answer 1':<15} {'Answer 2':<15} {'Answer 3':<15}")
         for row in reader:
             print(f"{row['user_id']:<10} {row['first_name']:<20} {row['last_name']:<20} {row['answer_1']:<15} {row['answer_2']:<15} {row['answer_3']:<15}")
