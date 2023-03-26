@@ -1,5 +1,5 @@
 resource "aws_lb" "this" {
-    name_prefix = "load_balance"
+    name_prefix = "aws-lb"
     internal = false
     load_balancer_type = "application"
     security_groups = [aws_security_group.alb.id]
@@ -20,7 +20,7 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_lb_target_group" "http" {
-    name_prefix = "load_balance"
+    name_prefix = "aws-lb"
     port = 80
     protocol = "HTTP"
     vpc_id = aws_vpc.this.id
