@@ -30,3 +30,4 @@ def capitalize_names(data):
         row[1] = row[1].capitalize()
         row[2] = row[2].capitalize()
     return data
+

@@ -1,5 +1,6 @@
 from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names
 
+
 def test_input_is_list():
     #Arrange
     filename = "results.csv"
@@ -42,6 +43,7 @@ def test_remove_duplicate():
         ['2', 'Jane', 'Doe', 'No', 'Yes', '8'],
         ['4', 'Bob', 'Smith', 'Yes', 'Yes', '9']
     ]
+
     assert remove_duplicates(data) == expected_data
 
 
@@ -73,3 +75,4 @@ def test_capitalize_names():
         ['3', 'Bob', 'Smith', 'Yes', 'Yes', '9']
     ]
     assert capitalize_names(data) == expected_data
+
