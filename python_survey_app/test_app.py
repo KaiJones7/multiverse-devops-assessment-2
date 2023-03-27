@@ -122,7 +122,7 @@ def test_print_clean_data(capsys):
     print_clean_data(csv_file_path)
     captured = capsys.readouterr()
     assert captured.out == expected_output
-=======
+
     data = [
         ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
         ['1', 'john', 'Doe', 'Yes', 'No', '5'],
@@ -162,9 +162,3 @@ def test_print_clean_data(capsys):
     os.remove(temp_file_input.name)
     os.remove(temp_file_output.name)
     os.remove(temp_file_expected.name)
-
-
-    
-
-
-
