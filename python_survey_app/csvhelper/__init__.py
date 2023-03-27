@@ -60,7 +60,9 @@ def write_clean_data_to_file(input_file, output_file):
 
 
 def print_clean_data(file):
-    with open(file) as f:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    file_path = os.path.join(dir_path, file)
+    with open(file_path) as f:
         reader = csv.DictReader(f)
         print(f"{'user_id':<10} {'First Name':<20} {'Last Name':<20} {'Answer 1':<15} {'Answer 2':<15} {'Answer 3':<15}")
         for row in reader:
