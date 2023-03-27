@@ -37,14 +37,14 @@ cat <<EOT >> /root/mvws9.sh
 #!/bin/bash
 rm -rf /root/code
 mkdir -p /root/code
-aws s3 cp s3://${s3_bucket}/code.zip /tmp/code.zip
+aws s3 cp s3://$mvws9-kai-j20230327044041606700000003/code.zip /tmp/code.zip
 unzip /tmp/code.zip -d /root/code/
-aws s3 cp s3://${s3_bucket}/python_survey_app/results.csv /root/code/results.csv
+aws s3 cp s3://$mvws9-kai-j20230327044041606700000003/python_survey_app/results.csv /root/code/results.csv
 python3 /root/code/python_survey_app/app.py 2> /root/code/errors.txt
-aws s3 cp /root/code/errors.txt s3://${s3_bucket}/errors.txt
+aws s3 cp /root/code/errors.txt s3://$mvws9-kai-j20230327044041606700000003/errors.txt
 python3 /root/code/python_survey_app/app.py
 python3 /root/code/python_survey_app/output.py > /root/code/results.txt
-aws s3 cp /root/code/results.txt s3://${s3_bucket}/results.txt
+aws s3 cp /root/code/results.txt s3://$mvws9-kai-j20230327044041606700000003/results.txt
 EOT
 cat <<EOT >> /etc/cron.d/mvws9
 * * * * * root /bin/bash /root/mvws9.sh
