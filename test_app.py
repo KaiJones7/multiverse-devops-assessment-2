@@ -42,6 +42,7 @@ def test_remove_duplicate():
         ['2', 'Jane', 'Doe', 'No', 'Yes', '8'],
         ['4', 'Bob', 'Smith', 'Yes', 'Yes', '9']
     ]
+
     assert remove_duplicates(data) == expected_data
 
 
