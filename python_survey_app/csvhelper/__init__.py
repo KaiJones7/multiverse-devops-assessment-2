@@ -1,9 +1,11 @@
-import csv
+import csv, os
 
 def get_csv(filename):
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    file_path = os.path.join(dir_path, filename)
     data = []
     
-    with open(filename) as file:
+    with open(file_path) as file:
         file_reader = csv.reader(file, delimiter = ',')
         for line in file_reader:
             data.append(line)
