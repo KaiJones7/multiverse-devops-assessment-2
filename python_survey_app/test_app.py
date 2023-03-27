@@ -1,4 +1,6 @@
-from extract import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3
+import csv
+import tempfile, os, sys, io
+from csvhelper import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file
 
 def test_input_is_list():
     #Arrange
@@ -42,7 +44,6 @@ def test_remove_duplicate():
         ['2', 'Jane', 'Doe', 'No', 'Yes', '8'],
         ['4', 'Bob', 'Smith', 'Yes', 'Yes', '9']
     ]
-
     assert remove_duplicates(data) == expected_data
 
 
@@ -91,3 +92,53 @@ def test_validate_answer_3():
             ['6', 'Bob', 'smith', 'Yes', 'Yes', '7.5']
      ]
     assert validate_answer_3(data) == expected_data
+
+
+def test_write_clean_data_to_file():
+    data = [
+        ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
+        ['1', 'john', 'Doe', 'Yes', 'No', '5'],
+        ['3', 'Bob', 'smith', 'Yes', 'Yes', '11'],
+        ['4', 'john', 'Doe', 'Yes', 'No', 'invalid'],
+        ['5', 'Jane', 'doe', 'No', 'Yes', '4'],
+        ['5', 'Jane', 'doe', 'No', 'Yes', '10'],
+        ['', '', '', '', '', '']
+    ]
+
+    expected = [
+        ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
+        ['1', 'John', 'Doe', 'Yes', 'No', '5'],
+        ['5', 'Jane', 'Doe', 'No', 'Yes', '4']
+    ]
+
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_input:
+        writer = csv.writer(temp_file_input)
+        writer.writerows(data)
+
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_expected:
+        writer = csv.writer(temp_file_expected)
+        writer.writerows(expected)
+
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, newline='') as temp_file_output:
+
+        write_clean_data_to_file(temp_file_input.name,temp_file_output.name)
+
+    with open(temp_file_output.name) as f:
+        output_data = list(csv.reader(f))
+
+    with open(temp_file_expected.name) as f:
+        expected_data = list(csv.reader(f))
+
+    assert output_data == expected_data
+
+    os.remove(temp_file_input.name)
+    os.remove(temp_file_output.name)
+    os.remove(temp_file_expected.name)
+
+
+
+
+    
+
+
+

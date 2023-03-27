@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "this" {
-    bucket_prefix = "app-kai-jones"
+    bucket_prefix = "mvws9-kai-j"
     force_destroy = true
     tags = {
-        Name = "Survey App Bucket"
+        Name = "multiverse"
     }
 }
 
@@ -16,10 +16,4 @@ resource "aws_s3_object" "this" {
     key = "results.csv"
     source = "${path.module}/results.csv"
     etag = filemd5("${path.module}/results.csv")
-}
-
-resource "aws_s3_object" "test_file" {
-    bucket = aws_s3_bucket.this.id
-    key = "test_file.txt"
-    content = "hello world!!"
 }
