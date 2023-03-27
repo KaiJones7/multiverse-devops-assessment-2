@@ -39,6 +39,24 @@ def validate_answer_3(data):
             answer_3 = float(answer_3)
             if 1 <= answer_3 <= 10:
                 valid_data.append(row)
+<<<<<<< HEAD:python_survey_app/csvhelper/__init__.py
+    return valid_data
+
+def write_clean_data_to_file(input_file, output_file):
+    csv_data = get_csv(input_file)
+
+    csv_data = remove_duplicates(csv_data)
+    csv_data = ignore_empty_lines(csv_data)
+    csv_data = capitalize_names(csv_data)
+    csv_data = validate_answer_3(csv_data)
+
+    with open(output_file, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'])
+        for row in csv_data:
+            writer.writerow(row)
+  
+=======
     return valid_data
 
 def write_clean_data_to_file(input_file, output_file):
