@@ -1,6 +1,7 @@
 import csv
 import tempfile, os, sys, io
-from csvhelper import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file
+from csvhelper import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file, print_clean_data
+
 
 def test_input_is_list():
     #Arrange
@@ -95,6 +96,33 @@ def test_validate_answer_3():
 
 
 def test_write_clean_data_to_file():
+    csv_data = "user_id,first_name,last_name,answer_1,answer_2,answer_3\n1,john,doe,Yes,No,5\n2,jane,doe,No,Yes,8\n"
+    expected_output = "user_id,first_name,last_name,answer_1,answer_2,answer_3\n1,John,Doe,Yes,No,5\n2,Jane,Doe,No,Yes,8\n"
+
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as input_file:
+        input_file.write(csv_data)
+
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as output_file:
+        write_clean_data_to_file(input_file.name, output_file.name)
+
+        with open(output_file.name, mode="r") as f:
+            output_data = f.read()
+
+            assert output_data == expected_output
+
+def test_print_clean_data(capsys):
+    csv_data = "user_id,first_name,last_name,answer_1,answer_2,answer_3\n1,John,Doe,Yes,No,5\n2,Jane,Doe,No,Yes,8\n"
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as f:
+        f.write(csv_data)
+        csv_file_path = f.name
+    expected_output = '''user_id    First Name           Last Name            Answer 1        Answer 2        Answer 3       
+1          John                 Doe                  Yes             No              5              
+2          Jane                 Doe                  No              Yes             8              
+'''
+    print_clean_data(csv_file_path)
+    captured = capsys.readouterr()
+    assert captured.out == expected_output
+
     data = [
         ['user_id', 'first_name', 'last_name', 'answer_1', 'answer_2', 'answer_3'],
         ['1', 'john', 'Doe', 'Yes', 'No', '5'],
@@ -134,11 +162,3 @@ def test_write_clean_data_to_file():
     os.remove(temp_file_input.name)
     os.remove(temp_file_output.name)
     os.remove(temp_file_expected.name)
-
-
-
-
-    
-
-
-
