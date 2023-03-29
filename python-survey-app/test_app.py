@@ -1,5 +1,5 @@
 import csv
-import tempfile, os, sys, io
+import tempfile, os
 from csvhelper import get_csv, remove_duplicates, ignore_empty_lines, capitalize_names, validate_answer_3, write_clean_data_to_file, print_clean_data
 
 
